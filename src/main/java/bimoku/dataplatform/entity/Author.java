@@ -1,8 +1,5 @@
 package bimoku.dataplatform.entity;
 
-import javax.persistence.Entity;
-
-@Entity
 public class Author {
 	
 	private int id;
