@@ -14,8 +14,8 @@ public class DataPlatformApplication extends Application {
 
 	
 	public DataPlatformApplication() {
-		classes = new HashSet<>();
-		singletons = new HashSet<>();
+		classes = new HashSet<Class<?>>();
+		singletons = new HashSet<Object>();
 	}
 
 	@Override
