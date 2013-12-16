@@ -4,8 +4,8 @@
 
 	<groupId>bimoku</groupId>
 	<artifactId>dataplatform</artifactId>
-	<version>1.0 beta</version>
-	<packaging>jar</packaging>
+	<version>1.0beta</version>
+	<packaging>war</packaging>
 
 	<name>data-platform</name>
 	<url>http://maven.apache.org</url>
@@ -20,6 +20,11 @@
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -42,32 +47,46 @@
 			<version>5.0.1.Final</version>
 		</dependency>
 		<dependency>
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>jsr311-api</artifactId>
-			<version>1.1.1</version>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>1.4.3.RELEASE</version>
 		</dependency>
-		<!-- 
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>2.4.1</version>
+		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-server</artifactId>
 			<version>2.4.1</version>
 		</dependency>
-		 -->
 		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-grizzly2</artifactId>
-			<version>1.18</version>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-jdk-http</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-moxy</artifactId>
+			<version>2.4.1</version>
 		</dependency>
 	</dependencies>
 	<build>
+		<finalName>platform</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 		</plugins>
