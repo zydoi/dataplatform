@@ -7,28 +7,31 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.bimoku.dataplatform.entity.Comment;
+import com.bimoku.dataplatform.entity.Message;
 
-@XmlRootElement
+@XmlRootElement(name = "Comment")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CommentDTO {
+public class MessageDTO {
 
-	@XmlElement(name = "USER")
+	@XmlElement(name = "User")
 	private UserDTO user;
 	
+	@XmlElement(name = "BookName")
+	private String bookName;
+
 	@XmlElement(name = "Content")
 	private String content;
 	
 	@XmlElement(name = "CreateAt")
-	private Date createAT;
+	private Date createAt;
 	
 	@XmlElement(name = "Site")
 	private String site;
 	
-	public CommentDTO() {
+	public MessageDTO() {
 	}
 	
-	public CommentDTO(Comment comment) {
+	public MessageDTO(Message comment) {
 		
 	}
 
@@ -48,12 +51,12 @@ public class CommentDTO {
 		this.content = content;
 	}
 
-	public Date getCreateAT() {
-		return createAT;
+	public Date getCreateAt() {
+		return createAt;
 	}
 
-	public void setCreateAT(Date createAT) {
-		this.createAT = createAT;
+	public void setCreateAt(Date createAt) {
+		this.createAt = createAt;
 	}
 
 	public String getSite() {
@@ -62,6 +65,14 @@ public class CommentDTO {
 
 	public void setSite(String site) {
 		this.site = site;
+	}
+
+	public String getBookName() {
+		return bookName;
+	}
+
+	public void setBookName(String bookName) {
+		this.bookName = bookName;
 	}
 	
 	

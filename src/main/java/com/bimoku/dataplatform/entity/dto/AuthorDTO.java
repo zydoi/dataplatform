@@ -6,27 +6,18 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.bimoku.dataplatform.entity.User;
 
-@XmlRootElement(name = "User")
+@XmlRootElement(name = "Author")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class UserDTO {
-	
+public class AuthorDTO {
 	@XmlAttribute(name = "ID")
 	private int id;
 	
 	@XmlElement(name = "Name")
 	private String name;
-	
-	@XmlElement(name = "UserImage")
-	private String userImage;
-	
-	public UserDTO() {
-	}
-	
-	public UserDTO(User user) {
-		
-	}
+
+	@XmlElement(name = "Introduction")
+	private String intro;
 
 	public int getId() {
 		return id;
@@ -44,12 +35,13 @@ public class UserDTO {
 		this.name = name;
 	}
 
-	public String getUserImage() {
-		return userImage;
+	public String getIntro() {
+		return intro;
 	}
 
-	public void setUserImage(String userImage) {
-		this.userImage = userImage;
+	public void setIntro(String intro) {
+		this.intro = intro;
 	}
-
+	
+	
 }

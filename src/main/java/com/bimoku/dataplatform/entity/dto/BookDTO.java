@@ -8,36 +8,38 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.bimoku.dataplatform.entity.Book;
+
 @XmlRootElement(name = "Book")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BookDTO {
 
-	@XmlAttribute
+	@XmlAttribute(name = "ID")
 	private int id;
-	
-	@XmlElement(name = "UUID")
-	private String uuid;
-	
+
+	@XmlElement(name = "ISBN")
+	private String isbn;
+
 	@XmlElement(name = "Name")
 	private String name;
-	
-	@XmlElement(name = "Author")
-	private String author;
-	
-	@XmlElement(name = "Translator")
-	private String translator;
-	
-	@XmlElement(name = "Press")
-	private String press;
-	
-	@XmlElement(name = "Version")
-	private String version;
-	
+
 	@XmlElement(name = "CoverPic")
 	private String coverPic;
-	
-	@XmlElement(name = "Comments")
-	private List<CommentDTO> comments;
+
+	@XmlElement(name = "PubPrice")
+	private double pubPrice;
+
+	@XmlElement(name = "CommentCount")
+	private int commentCount;
+
+	@XmlElement(name = "LikeCount")
+	private int likeCount;
+
+	@XmlElement(name = "Messages")
+	private List<MessageDTO> messages;
+
+	public BookDTO() {
+	}
 
 	public int getId() {
 		return id;
@@ -47,12 +49,12 @@ public class BookDTO {
 		this.id = id;
 	}
 
-	public String getUuid() {
-		return uuid;
+	public String getIsbn() {
+		return isbn;
 	}
 
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
 	}
 
 	public String getName() {
@@ -63,38 +65,6 @@ public class BookDTO {
 		this.name = name;
 	}
 
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-	public String getTranslator() {
-		return translator;
-	}
-
-	public void setTranslator(String translator) {
-		this.translator = translator;
-	}
-
-	public String getPress() {
-		return press;
-	}
-
-	public void setPress(String press) {
-		this.press = press;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
 	public String getCoverPic() {
 		return coverPic;
 	}
@@ -103,12 +73,36 @@ public class BookDTO {
 		this.coverPic = coverPic;
 	}
 
-	public List<CommentDTO> getComments() {
-		return comments;
+	public double getPubPrice() {
+		return pubPrice;
 	}
 
-	public void setComments(List<CommentDTO> comments) {
-		this.comments = comments;
+	public void setPubPrice(double pubPrice) {
+		this.pubPrice = pubPrice;
 	}
-	
+
+	public int getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
+
+	public int getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+
+	public List<MessageDTO> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<MessageDTO> messages) {
+		this.messages = messages;
+	}
+
 }

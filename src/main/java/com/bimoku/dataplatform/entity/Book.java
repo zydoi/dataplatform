@@ -1,76 +1,128 @@
 package com.bimoku.dataplatform.entity;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.bimoku.dataplatform.entity.dto.BookDTO;
+import com.bimoku.dataplatform.entity.dto.BookDetailsDTO;
+
 @Entity
-@Table(name = "t_book")
+@Table(name = "Book")
 public class Book {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
-	private String isbn;
-	
-	private String uuid;
-	
-	private String name;
-	
-	private String author;
 
-	private String translator;
-	
-	private String press;
-	
-	private String version;
-	
+	@Column(name = "ISBN")
+	private String isbn;
+
+	@Column(name = "UUID")
+	private String uuid;
+
+	@Column(name = "NAME")
+	private String name;
+
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(name = "Book_Author",
+			joinColumns = @JoinColumn(name="BOOK_ID"),
+			inverseJoinColumns = @JoinColumn(name="AUTHOR_ID"))
+	private Set<Author> authors = new HashSet<Author>();
+
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(name = "Book_Translator",
+			joinColumns = @JoinColumn(name = "BOOK_ID"),
+			inverseJoinColumns = @JoinColumn(name="TRANSLATOR_ID"))
+	private Set<Author> translators = new HashSet<Author>();
+
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "PRESS_ID")
+	private Press press;
+
+	@Column(name = "VERSION_NUM")
+	private String versionNum;
+
+	@Column(name = "WANTREAD")
 	private int wantRead;
-	
+
+	@Column(name = "READING")
 	private int reading;
-	
+
+	@Column(name = "HASREAD")
 	private int hasRead;
-	
+
+	@Column(name = "COVER_PIC")
 	private String coverPic;
+
+	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+	private Set<AssociatedTag> associatedTags = new HashSet<AssociatedTag>();
 	
-	private String catelog;
-	
-	private String AuthorIntro;
-	
-	private String directory;
-	
+	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+	private Set<Message> messages = new HashSet<Message>();
+
+	@Column(name = "OUTLINE", columnDefinition = "TEXT")
+	@Lob
 	private String outline;
 	
-	private double price;
-	
-	private double pubPrice;
-	
-	private String relationShip;
-	
-	private String allPrice;
-	
-	private boolean isLock;
-	
-	private Date updateTime;
-	
-	private boolean isSearchRank;
-	
-	private boolean isOnSaleRank;
-	
-	private boolean isPromotionRank;
-	
-	private boolean isNewRank;
-	
-	private boolean hasComment;
+	@Column(name = "DIRECTORY", columnDefinition = "TEXT")
+	@Lob
+	private String directory;
 
+	@Column(name = "PUB_PRICE")
+	private double pubPrice;
+
+	@Column(name = "UPDATE_TIME")
+	private Date updateTime;
+
+	@Column(name = "IS_SEARCH_RANK", columnDefinition = "BIT", length = 1)
+	private boolean isSearchRank;
+
+	@Column(name = "IS_SALE_RANK", columnDefinition = "BIT", length = 1)
+	private boolean isSaleRank;
+
+	@Column(name = "IS_PROMOTION_RANK", columnDefinition = "BIT", length = 1)
+	private boolean isPromotionRank;
+
+	@Column(name = "IS_NEW_RANK", columnDefinition = "BIT", length = 1)
+	private boolean isNewRank;
+
+	
 	public Book() {
 	}
 	
+	public Book(BookDTO dto) {
+		this.setName(dto.getName());
+		this.setIsbn(dto.getIsbn());
+		this.setCoverPic(dto.getCoverPic());
+		this.setPubPrice(dto.getPubPrice());
+	}
+	
+	public Book(BookDetailsDTO dto) {
+		this.setName(dto.getName());
+		this.setIsbn(dto.getIsbn());
+		this.setCoverPic(dto.getCoverPic());
+		this.setPubPrice(dto.getPubPrice());
+		this.setDirectory(dto.getDirectory());
+		this.setOutline(dto.getOutline());
+		this.setVersionNum(dto.getVersionNum());
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -103,36 +155,28 @@ public class Book {
 		this.name = name;
 	}
 
-	public String getAuthor() {
-		return author;
+	public Set<Author> getAuthors() {
+		return authors;
 	}
 
-	public void setAuthor(String author) {
-		this.author = author;
+	public void setAuthors(Set<Author> authors) {
+		this.authors = authors;
 	}
 
-	public String getTranslator() {
-		return translator;
+	public Set<Author> getTranslators() {
+		return translators;
 	}
 
-	public void setTranslator(String translator) {
-		this.translator = translator;
+	public void setTranslators(Set<Author> translators) {
+		this.translators = translators;
 	}
 
-	public String getPress() {
+	public Press getPress() {
 		return press;
 	}
 
-	public void setPress(String press) {
+	public void setPress(Press press) {
 		this.press = press;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
 	}
 
 	public int getWantRead() {
@@ -167,30 +211,6 @@ public class Book {
 		this.coverPic = coverPic;
 	}
 
-	public String getCatelog() {
-		return catelog;
-	}
-
-	public void setCatelog(String catelog) {
-		this.catelog = catelog;
-	}
-
-	public String getAuthorIntro() {
-		return AuthorIntro;
-	}
-
-	public void setAuthorIntro(String authorIntro) {
-		AuthorIntro = authorIntro;
-	}
-
-	public String getDirectory() {
-		return directory;
-	}
-
-	public void setDirectory(String directory) {
-		this.directory = directory;
-	}
-
 	public String getOutline() {
 		return outline;
 	}
@@ -199,44 +219,12 @@ public class Book {
 		this.outline = outline;
 	}
 
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
 	public double getPubPrice() {
 		return pubPrice;
 	}
 
 	public void setPubPrice(double pubPrice) {
 		this.pubPrice = pubPrice;
-	}
-
-	public String getRelationShip() {
-		return relationShip;
-	}
-
-	public void setRelationShip(String relationShip) {
-		this.relationShip = relationShip;
-	}
-
-	public String getAllPrice() {
-		return allPrice;
-	}
-
-	public void setAllPrice(String allPrice) {
-		this.allPrice = allPrice;
-	}
-
-	public boolean isLock() {
-		return isLock;
-	}
-
-	public void setLock(boolean isLock) {
-		this.isLock = isLock;
 	}
 
 	public Date getUpdateTime() {
@@ -255,14 +243,6 @@ public class Book {
 		this.isSearchRank = isSearchRank;
 	}
 
-	public boolean isOnSaleRank() {
-		return isOnSaleRank;
-	}
-
-	public void setOnSaleRank(boolean isOnSaleRank) {
-		this.isOnSaleRank = isOnSaleRank;
-	}
-
 	public boolean isPromotionRank() {
 		return isPromotionRank;
 	}
@@ -279,11 +259,44 @@ public class Book {
 		this.isNewRank = isNewRank;
 	}
 
-	public boolean isHasComment() {
-		return hasComment;
+	public String getVersionNum() {
+		return versionNum;
 	}
 
-	public void setHasComment(boolean hasComment) {
-		this.hasComment = hasComment;
+	public void setVersionNum(String versionNum) {
+		this.versionNum = versionNum;
 	}
+
+	public boolean isSaleRank() {
+		return isSaleRank;
+	}
+
+	public void setSaleRank(boolean isSaleRank) {
+		this.isSaleRank = isSaleRank;
+	}
+
+	public String getDirectory() {
+		return directory;
+	}
+
+	public void setDirectory(String directory) {
+		this.directory = directory;
+	}
+
+	public Set<AssociatedTag> getAssociatedTags() {
+		return associatedTags;
+	}
+
+	public void setAssociatedTags(Set<AssociatedTag> associatedTags) {
+		this.associatedTags = associatedTags;
+	}
+
+	public Set<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(Set<Message> messages) {
+		this.messages = messages;
+	}
+
 }
