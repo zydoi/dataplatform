@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.bimoku.dataplatform.entity.AssociatedTag;
 import com.bimoku.dataplatform.entity.Author;
 import com.bimoku.dataplatform.entity.Book;
 import com.bimoku.dataplatform.entity.Message;
@@ -15,6 +16,7 @@ import com.bimoku.dataplatform.entity.dto.AuthorDTO;
 import com.bimoku.dataplatform.entity.dto.BookDTO;
 import com.bimoku.dataplatform.entity.dto.BookDetailsDTO;
 import com.bimoku.dataplatform.entity.dto.MessageDTO;
+import com.bimoku.dataplatform.entity.dto.TagDTO;
 import com.bimoku.dataplatform.entity.dto.TranslatorDTO;
 import com.bimoku.dataplatform.entity.dto.UserDTO;
 import com.bimoku.dataplatform.entity.type.UserType;
@@ -95,6 +97,12 @@ public class EntityGenerator {
 		return author;
 	}
 	
+	public static AssociatedTag generateAssociatedTag(Book book, Tag tag) {
+		AssociatedTag aTag = new AssociatedTag(book, tag);
+		book.getAssociatedTags().add(aTag);
+		return aTag;
+	}
+	
 	public static List<BookDTO> generateBookDTOs(int n) {
 		List<BookDTO> books = new ArrayList<BookDTO>();
 		for(int i = 0; i < n; i++) {
@@ -153,6 +161,16 @@ public class EntityGenerator {
 			users.add(user);
 		}
 		return users;
+	}
+	
+	public static List<TagDTO> generateTag(int n) {
+		List<TagDTO> tags = new ArrayList<TagDTO>();
+		for (int i = 0; i < n; i++) {
+			TagDTO tag = new TagDTO();
+			tag.setName("Tag " + i);
+			tags.add(tag);
+		}
+		return tags;
 	}
 
 	public static List<MessageDTO> generateMessageDTOs(int n) {

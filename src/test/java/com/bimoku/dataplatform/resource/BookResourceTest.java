@@ -72,6 +72,13 @@ public class BookResourceTest extends JerseyTest {
 		assertEquals("Book 1", books.get(0).getName());
 	}
 	
+	@Test
+	public void shouldGetBooksByTag() {
+		GenericType<List<BookDTO>> listType = new GenericType<List<BookDTO>>() {};
+		List<BookDTO> books = (List<BookDTO>) target("book/tag").queryParam("tag", "Tag1").queryParam("start", 0).queryParam("size", 2).request().get(listType);
+		assertEquals(2, books.size());
+	}
+	
 	@After
 	public void tearUp() {
 		dataGenerator.cleanUp();

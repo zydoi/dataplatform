@@ -43,6 +43,15 @@ public class BookResource {
 		return bookService.findBooksByName(name, start, size, direction, orders.toArray(new String[orders.size()]));
 	}
 	
+	@Path(value = "/book/tag")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<BookDTO> getBooksByTag(@QueryParam("tag") String tag, @DefaultValue("0") @QueryParam("start")int start,  @DefaultValue("10") @QueryParam("size") int size,
+			@DefaultValue("ASC") @QueryParam("direction") String direction,  @QueryParam("orderBy") List<String> orders) {
+		logger.info("Get books by Tag: " + tag);
+		return bookService.findByTagName(tag, start, size, direction, orders.toArray(new String[orders.size()]));
+	}
+	
 	@Path(value = "/book/page")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

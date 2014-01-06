@@ -148,7 +148,7 @@ public class BookService {
 	
 	
 	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-	public List<BookDTO> findByTagsName(String tag, int start, int size, String direction, String... orders) {
+	public List<BookDTO> findByTagName(String tag, int start, int size, String direction, String... orders) {
 		List<Book> books = null;
 		if(orders == null || orders.length == 0) {
 			books = bookDao.findByAssociatedTagsTagName(tag, new PageRequest(start, size));

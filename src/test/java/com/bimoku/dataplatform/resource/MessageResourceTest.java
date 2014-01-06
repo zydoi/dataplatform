@@ -44,7 +44,8 @@ public class MessageResourceTest extends JerseyTest {
 	
 	@Before
 	public void setup() {
-		dataGenerator.generateMessages(5);
+		dataGenerator.cleanUp();
+		dataGenerator.generateTestData(5);
 	}
 	
 	@Test
@@ -57,8 +58,8 @@ public class MessageResourceTest extends JerseyTest {
 	@Test
 	public void shouldGetMessagesByUser() {
 		GenericType<List<MessageDTO>> listType = new GenericType<List<MessageDTO>>() {};
-		List<MessageDTO> messages = (List<MessageDTO>) target("book/0/messages").queryParam("start", 0).queryParam("size", 2).request().get(listType);
-		assertEquals("Book 0", messages.get(0).getBookName());
+		List<MessageDTO> messages = (List<MessageDTO>) target("book/1/messages").queryParam("start", 0).queryParam("size", 2).request().get(listType);
+		assertEquals("Book 1", messages.get(0).getBookName());
 	}
 	
 	@Test

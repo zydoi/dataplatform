@@ -55,7 +55,6 @@ public class MessageService {
 			Book book = bookDao.findByName(messageDTO.getBookName(), new PageRequest(0, 1)).get(0);
 			message.setBook(book);
 		}
-		//Add website
 		if(messageDTO.getSite() != null) {
 			Website website = websiteDao.findByName(messageDTO.getSite());
 			message.setSite(website);

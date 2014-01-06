@@ -103,6 +103,7 @@ public class DTOAssembler {
 			TagDTO dto = new TagDTO();
 			dto.setCount(atag.getCount());
 			dto.setName(atag.getTag().getName());
+			dtos.add(dto);
 		}
 		return dtos;
 	}

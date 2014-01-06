@@ -15,4 +15,6 @@ public interface TagDao extends JpaRepository<Tag, Integer>{
 			+ "ORDER BY count(b.ID) DESC limit 10", nativeQuery = true)
 	public List<Tag> findPopularTags();
 	
+	
+	public Tag findByName(String name);
 }

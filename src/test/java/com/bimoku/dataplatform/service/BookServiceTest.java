@@ -23,26 +23,26 @@ import com.bimoku.dataplatform.util.EntityGenerator;
 public class BookServiceTest {
 	
 	@Autowired
-	private BookService bookservice;
+	private BookService service;
 	
 	@Autowired
-	private BookDao bookDao;
+	private BookDao dao;
 	
 	@Before
 	public void setup() {
 		List<Book> books = EntityGenerator.generateBooks(EntityGenerator.N);
-		bookDao.save(books);
+		dao.save(books);
 	}
 	
 	@Test
 	public void shouldGetABookByISBN() {
-		BookDTO dto = bookservice.findByIsbn("0");
+		BookDTO dto = service.findByIsbn("0");
 		assertEquals("Book 0", dto.getName());
 	}
 	
 	@Test
 	public void shouldGetBooksOrderByPubPrice() {
-	    List<BookDTO> books = bookservice.findAll(0, 5, "DESC", "PubPrice");
+	    List<BookDTO> books = service.findAll(0, 5, "DESC", "PubPrice");
 		assertEquals(14, books.get(0).getPubPrice(), 0.01);
 	}
 }
