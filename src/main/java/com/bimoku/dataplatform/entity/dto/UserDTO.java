@@ -6,8 +6,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.bimoku.dataplatform.entity.User;
-
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UserDTO {
@@ -24,10 +22,6 @@ public class UserDTO {
 	public UserDTO() {
 	}
 	
-	public UserDTO(User user) {
-		
-	}
-
 	public int getId() {
 		return id;
 	}

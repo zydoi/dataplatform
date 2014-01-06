@@ -13,6 +13,7 @@ import com.bimoku.dataplatform.entity.AssociatedTag;
 import com.bimoku.dataplatform.entity.Author;
 import com.bimoku.dataplatform.entity.Book;
 import com.bimoku.dataplatform.entity.Message;
+import com.bimoku.dataplatform.entity.User;
 import com.bimoku.dataplatform.entity.dto.AuthorDTO;
 import com.bimoku.dataplatform.entity.dto.BookDTO;
 import com.bimoku.dataplatform.entity.dto.BookDetailsDTO;
@@ -68,6 +69,20 @@ public class DTOAssembler {
 		return dtos;
 	}
 	
+	public static UserDTO assembleUserDTO(User user) {
+		UserDTO dto = (UserDTO) assemble(user, new UserDTO());
+		dto.setUserImage(user.getUserProfile().getUserImage());
+		return dto;
+	}
+	
+	public static List<UserDTO>	assembleUserDTOs(Collection<User> users) {
+		List<UserDTO> dtos = new ArrayList<UserDTO>();
+		for (User user : users) {
+			dtos.add((UserDTO) assemble(user, new UserDTO()));
+		}
+		return dtos;
+	}
+	
 	public static AuthorDTO assembleAuthorDTO(Author author) {
 		AuthorDTO dto = new AuthorDTO();
 		assemble(author, dto);
@@ -99,6 +114,10 @@ public class DTOAssembler {
 	 * @return
 	 */
 	public static Object assemble(Object obj, Object dto) {
+		if(obj == null || dto == null) {
+			return null;
+		}
+		
 		Pattern setterPattern = Pattern.compile("set.*");
 
 		Method[] methods = dto.getClass().getMethods();
@@ -124,7 +143,7 @@ public class DTOAssembler {
 			}
 
 		}
-		
 		return dto;
 	}
+	
 }

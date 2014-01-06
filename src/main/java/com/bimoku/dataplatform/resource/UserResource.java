@@ -2,8 +2,14 @@ package com.bimoku.dataplatform.resource;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +25,53 @@ public class UserResource {
 	@Autowired
 	private UserService service;
 	
-	@Path(value = "/user/{ID}")
-	public UserDTO getUser(@PathParam("ID") int id) {
-		logger.info("Get User with ID: " + id);
-		return null;
+	@Path(value = "/user")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public UserDTO register(UserDTO userDTO) {
+		logger.info("Register new User: " + userDTO.getName());
+		return service.create(userDTO);
 	}
 	
-	@Path(value = "/user/{ID}/followers")
-	public List<UserDTO> getFollowers() {
-		return null;
+	@Path(value = "/user/{name}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public UserDTO getUser(@PathParam("name") String name) {
+		logger.info("Get User with Name: " + name);
+		return service.findByName(name);
+	}
+	
+	@Path(value = "/user/{name}/followers")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<UserDTO> getFollowers(@PathParam("name")String name) {
+		logger.info("Get Followers of User: " + name );
+		return service.findFollowersByName(name);
 	}
 
-	@Path(value = "/user/{ID}/followings")
-	public List<UserDTO> getFollowings() {
-		return null;
+	@Path(value = "/user/{name}/followings")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<UserDTO> getFollowings(@PathParam("name") String name) {
+		logger.info("Get Followings of User: " + name );
+		return service.findFollowingsByName(name);
 	}
+	
+	@Path(value = "/user/{user}/follows")
+	@PUT
+	@Consumes(MediaType.TEXT_PLAIN)
+	public void follow(@PathParam("user") String user, String tofollow ) {
+		logger.info("User: " + user + " follows " + "User: " + tofollow );
+		service.follow(user, tofollow);
+	}
+	
+	@Path(value = "/user/{user}/unfollows")
+	@PUT
+	@Consumes(MediaType.TEXT_PLAIN)
+	public void unfollow(@PathParam("user") String user, String tofollow ) {
+		logger.info("User: " + user + " unfollows " + "User: " + tofollow );
+		service.unfollow(user, tofollow);
+	}
+
 }

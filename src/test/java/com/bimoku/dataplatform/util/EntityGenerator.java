@@ -162,7 +162,7 @@ public class EntityGenerator {
 			comment.setContent("Test Comment " + i);
 			comment.setCreateAt(new Date());
 			comment.setSite("douban");
-			comment.setUser(generateUserDTOs(1).get(0));
+			//comment.setUser(generateUserDTOs(1).get(0));
 			comments.add(comment);
 		}
 		return comments;

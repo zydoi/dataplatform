@@ -37,7 +37,8 @@ public class BookResource {
 	@Path(value = "/book")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<BookDTO> getBooksByName(@QueryParam("name") String name, @DefaultValue("0") @QueryParam("start")int start,  @DefaultValue("10") @QueryParam("size") int size, @QueryParam("direction") String direction,  @QueryParam("orderBy") List<String> orders) {
+	public List<BookDTO> getBooksByName(@QueryParam("name") String name, @DefaultValue("0") @QueryParam("start")int start,  @DefaultValue("10") @QueryParam("size") int size,
+			@DefaultValue("ASC") @QueryParam("direction") String direction,  @QueryParam("orderBy") List<String> orders) {
 		logger.info("Get Books start:" + start + " Size:" + size);
 		return bookService.findBooksByName(name, start, size, direction, orders.toArray(new String[orders.size()]));
 	}
@@ -45,7 +46,8 @@ public class BookResource {
 	@Path(value = "/book/page")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<BookDTO> getBooks(@DefaultValue("0") @QueryParam("start")int start,  @DefaultValue("10") @QueryParam("size") int size, @QueryParam("direction") String direction,  @QueryParam("orderBy") List<String> orders) {
+	public List<BookDTO> getBooks(@DefaultValue("0") @QueryParam("start")int start,  @DefaultValue("10") @QueryParam("size") int size, 
+			@DefaultValue("ASC") @QueryParam("direction") String direction,  @QueryParam("orderBy") List<String> orders) {
 		logger.info("Get Books start:" + start + " Size:" + size);
 		return bookService.findAll(start, size, direction, orders.toArray(new String[orders.size()]));
 	}
@@ -53,7 +55,8 @@ public class BookResource {
 	@Path(value = "/book/new")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<BookDTO> getNewBooks( @DefaultValue("0") @QueryParam("start")int start,  @DefaultValue("10") @QueryParam("size") int size, @QueryParam("direction") String direction,  @QueryParam("orderBy") List<String> orders){
+	public List<BookDTO> getNewBooks( @DefaultValue("0") @QueryParam("start")int start,  @DefaultValue("10") @QueryParam("size") int size,
+			@DefaultValue("ASC") @QueryParam("direction") String direction,  @QueryParam("orderBy") List<String> orders){
 		logger.info("Get New Books start:" + start + " Size:" + size);
 		return bookService.findNewBooks(start, size, direction, orders.toArray(new String[orders.size()]));
 	}
@@ -63,14 +66,14 @@ public class BookResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<BookDTO> getSaleBooks(@DefaultValue("0") @QueryParam("start")int start, @DefaultValue("10") @QueryParam("size") int size, 
 			@QueryParam("direction") String direction,  @QueryParam("orderBy") List<String> orders){
-		logger.info("Get Onsale Books start:" + start + " Size:" + size);
+		logger.info("Get top-sale Books start:" + start + " Size:" + size);
 		return bookService.findSaleBooks(start, size, direction, orders.toArray(new String[orders.size()]));
 	}
 	
 	@Path(value = "/book/promotion")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<BookDTO> getPromotionBooks(@DefaultValue("0") @QueryParam("start")int start,  @DefaultValue("10") @QueryParam("size") int size, @QueryParam("direction") String direction,  @QueryParam("orderBy") List<String> orders){
+	public List<BookDTO> getPromotionBooks(@DefaultValue("0") @QueryParam("start")int start,  @DefaultValue("10") @QueryParam("size") int size, @DefaultValue("ASC") @QueryParam("direction") String direction,  @QueryParam("orderBy") List<String> orders){
 		logger.info("Get Promotion Books start:" + start + " Size:" + size);
 		return bookService.findPromotionBooks(start, size, direction, orders.toArray(new String[orders.size()]));
 	}

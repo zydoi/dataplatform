@@ -7,6 +7,7 @@ import com.bimoku.dataplatform.entity.Book;
 import com.bimoku.dataplatform.entity.Message;
 import com.bimoku.dataplatform.entity.Press;
 import com.bimoku.dataplatform.entity.Tag;
+import com.bimoku.dataplatform.entity.User;
 import com.bimoku.dataplatform.entity.dto.AuthorDTO;
 import com.bimoku.dataplatform.entity.dto.BookDTO;
 import com.bimoku.dataplatform.entity.dto.BookDetailsDTO;
@@ -22,10 +23,14 @@ public class DTOAssemblerTest {
 		Author author = EntityGenerator.generateAuthor("A");
 		Message message = EntityGenerator.generateMessage("M");
 		Tag tag = EntityGenerator.generateTag("T");
+		User user = EntityGenerator.generateUser("U");
 
 		book.setPress(press);
 		book.getAuthors().add(author);
 		book.getMessages().add(message);
+		message.setBook(book);
+		message.setUser(user);
+		
 		
 		DTOAssembler.assemble(book, new BookDTO());
 		DTOAssembler.assemble(book, new BookDetailsDTO());

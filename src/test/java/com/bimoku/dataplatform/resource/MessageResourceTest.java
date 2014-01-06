@@ -4,8 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
@@ -19,17 +21,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bimoku.dataplatform.entity.dto.MessageDTO;
-import com.bimoku.dataplatform.service.BookService;
 import com.bimoku.dataplatform.util.DataGenerator;
+import com.bimoku.dataplatform.util.EntityGenerator;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/test-spring-context.xml")
 @Transactional
 public class MessageResourceTest extends JerseyTest {
-	
-	@Autowired
-	private BookService service;
 	
 	@Autowired
 	private DataGenerator dataGenerator;
@@ -51,15 +50,22 @@ public class MessageResourceTest extends JerseyTest {
 	@Test
 	public void shouldGetMessagesByBook() {
 		GenericType<List<MessageDTO>> listType = new GenericType<List<MessageDTO>>() {};
-		List<MessageDTO> messages = (List<MessageDTO>) target("user/User/message").queryParam("start", 0).queryParam("size", 2).request().get(listType);
-		assertEquals("User", messages.get(0).getUser().getName());
+		List<MessageDTO> messages = (List<MessageDTO>) target("user/User 1/messages").queryParam("start", 0).queryParam("size", 2).request().get(listType);
+		assertEquals("User 1", messages.get(0).getUser().getName());
 	}
 	
 	@Test
 	public void shouldGetMessagesByUser() {
 		GenericType<List<MessageDTO>> listType = new GenericType<List<MessageDTO>>() {};
-		List<MessageDTO> messages = (List<MessageDTO>) target("book/0/message").queryParam("start", 0).queryParam("size", 2).request().get(listType);
+		List<MessageDTO> messages = (List<MessageDTO>) target("book/0/messages").queryParam("start", 0).queryParam("size", 2).request().get(listType);
 		assertEquals("Book 0", messages.get(0).getBookName());
+	}
+	
+	@Test
+	public void shouldCreateAMessage() {
+		MessageDTO dto = EntityGenerator.generateMessageDTOs(1).get(0);
+		MessageDTO m = target("message").request().post(Entity.entity(dto, MediaType.APPLICATION_JSON), MessageDTO.class);
+		assertEquals(dto.getContent(), m.getContent());
 	}
 	
 	@After

@@ -39,7 +39,7 @@ public class User {
 	private UserType userType;
 	
 	@Embedded
-	private UserProfile userProfile;
+	private UserProfile userProfile = new UserProfile();
 	
 	@ManyToMany
 	@JoinTable(name = "User_Follow_User",
@@ -147,5 +147,13 @@ public class User {
 	public void setCollectedBooks(Set<CollectedBook> collectedBooks) {
 		this.collectedBooks = collectedBooks;
 	}
-	
+
+	public Set<User> getFollowings() {
+		return followings;
+	}
+
+	public void setFollowings(Set<User> followings) {
+		this.followings = followings;
+	}
+
 }

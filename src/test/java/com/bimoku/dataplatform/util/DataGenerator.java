@@ -42,7 +42,9 @@ public class DataGenerator {
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void generateMessages(int n) {
-		User user = EntityGenerator.generateUser("User");
+		User user = EntityGenerator.generateUser("User 2");
+		userDao.save(user);
+		user = EntityGenerator.generateUser("User 1");
 		userDao.save(user);
 		Book book = EntityGenerator.generateBook("0");
 		bookDao.save(book);

@@ -137,7 +137,8 @@ public class BookService {
 		dto.setAuthors(DTOAssembler.assembleAuthorDTOs(book.getAuthors()));
 		
 		//get translators
-		
+		dto.setTranslators(DTOAssembler.assembleAuthorDTOs(book.getTranslators()));
+
 		//get tags
 		dto.setTags(DTOAssembler.assembleTagDTOs(book.getAssociatedTags()));
 		

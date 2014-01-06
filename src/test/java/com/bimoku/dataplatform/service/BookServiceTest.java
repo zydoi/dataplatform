@@ -42,7 +42,7 @@ public class BookServiceTest {
 	
 	@Test
 	public void shouldGetBooksOrderByPubPrice() {
-	    List<BookDTO> books = bookservice.findAll(0, 2, "ASC", "PubPrice");
-		assertEquals(2, books.size());
+	    List<BookDTO> books = bookservice.findAll(0, 5, "DESC", "PubPrice");
+		assertEquals(14, books.get(0).getPubPrice(), 0.01);
 	}
 }

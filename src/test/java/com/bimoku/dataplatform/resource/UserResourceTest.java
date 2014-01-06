@@ -4,8 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
@@ -18,14 +20,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bimoku.dataplatform.entity.dto.BookDTO;
+import com.bimoku.dataplatform.entity.dto.UserDTO;
 import com.bimoku.dataplatform.util.DataGenerator;
-
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/test-spring-context.xml")
 @Transactional
-public class BookResourceTest extends JerseyTest {
+public class UserResourceTest extends JerseyTest {
 
 	@Autowired
 	private DataGenerator dataGenerator;
@@ -41,39 +42,36 @@ public class BookResourceTest extends JerseyTest {
 	@Before
 	public void setup() {
 		dataGenerator.cleanUp();
-		dataGenerator.generateBooks(5);
+		dataGenerator.generateMessages(1);
 	}
 	
 	@Test
-	public void shouldGetABookByISBN() {
-		BookDTO book = target("book/2").request().get(BookDTO.class);
-		assertEquals("Book 2",book.getName());
+	public void shouldGetUserByName() {
+		UserDTO user = target("user/User 1").request().get(UserDTO.class);
+		assertEquals("User 1", user.getName());
 	}
 	
 	@Test
-	public void shouldGetABookPage() {
-		GenericType<List<BookDTO>> listType = new GenericType<List<BookDTO>>() {};
-		List<BookDTO> books = (List<BookDTO>) target("book/page").queryParam("start", 0).queryParam("size", 2)
-				.queryParam("direction", "DESC").queryParam("orderBy", "PubPrice").request().get(listType);
-		assertEquals(14, books.get(0).getPubPrice(), 0);
+	public void shouldGetFollowersByName() {
+		GenericType<List<UserDTO>> listType = new GenericType<List<UserDTO>>() {};
+		assertEquals(0, target("user/User 1/followers").request().get(listType).size());
+		
+		target("user/User 2/follows").request().put(Entity.entity("User 1", MediaType.TEXT_PLAIN));
+		assertEquals(1, target("user/User 1/followers").request().get(listType).size());
+		target("user/User 2/unfollows").request().put(Entity.entity("User 1", MediaType.TEXT_PLAIN));
+		assertEquals(0, target("user/User 1/followers").request().get(listType).size());
 	}
 	
 	@Test
-	public void shouldGetNewBooks() {
-		GenericType<List<BookDTO>> listType = new GenericType<List<BookDTO>>() {};
-		List<BookDTO> books = (List<BookDTO>) target("book/new").queryParam("start", 0).queryParam("size", 2).request().get(listType);
-		assertEquals(0, books.size());
-	}
-	
-	@Test
-	public void shouldGetBooksByName() {
-		GenericType<List<BookDTO>> listType = new GenericType<List<BookDTO>>() {};
-		List<BookDTO> books = (List<BookDTO>) target("book").queryParam("name", "Book 1").queryParam("start", 0).queryParam("size", 2).request().get(listType);
-		assertEquals("Book 1", books.get(0).getName());
+	public void shouldCreateAUser() {
+		UserDTO dto = new UserDTO();
+		dto.setName("Test");
+		UserDTO u = target("user").request().post(Entity.entity(dto, MediaType.APPLICATION_JSON), UserDTO.class);
+		assertEquals(dto.getName(), u.getName());
 	}
 	
 	@After
 	public void tearUp() {
 		dataGenerator.cleanUp();
-	}
+	}	
 }

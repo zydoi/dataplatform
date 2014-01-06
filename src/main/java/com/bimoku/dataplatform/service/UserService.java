@@ -12,6 +12,7 @@ import com.bimoku.dataplatform.entity.User;
 import com.bimoku.dataplatform.entity.UserProfile;
 import com.bimoku.dataplatform.entity.dto.UserDTO;
 import com.bimoku.dataplatform.entity.dto.UserProfileDTO;
+import com.bimoku.dataplatform.util.DTOAssembler;
 
 @Transactional
 @Service
@@ -20,33 +21,66 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 	
-	public User create(UserDTO dto) {
+	public UserDTO create(UserDTO dto) {
 		User user = new User(dto);
 		userDao.save(user);
-		return user;
+		return DTOAssembler.assembleUserDTO(user);
 	}
 	
-	public User follow(int userId, int toFollowId) {
-		User user = userDao.findOne(userId);
-		User toFollow = userDao.findOne(toFollowId);
+	/**
+	 * User with the userName follows the user with the toFollowName
+	 * @param userName the name of the follower 
+	 * @param toFollowName the name of user who will be followed
+	 * @return
+	 */
+	public User follow(String userName, String toFollowName) {
+		User user = userDao.findByName(userName);
+		User toFollow = userDao.findByName(toFollowName);
+		user.getFollowings().add(toFollow);
 		toFollow.getFollowers().add(user);
 		return user;
 	}
 	
-	public User updateProfile(int userId, UserProfileDTO userProfile) {
-		User user = userDao.findOne(userId);
+	/**
+	 * User with the userName unfollows the user with the toUnfollowName
+	 * @param userName the name of the follower 
+	 * @param toUnfollowName the name of user who will be unfollowed
+	 * @return
+	 */
+	public User unfollow(String userName, String toUnfollowName) {
+		User user = userDao.findByName(userName);
+		User toUnfollow = userDao.findByName(toUnfollowName);
+		user.getFollowings().remove(toUnfollow);
+		toUnfollow.getFollowers().remove(user);
+		return user;
+	}
+	
+	public User updateProfile(String name, UserProfileDTO userProfile) {
+		User user = userDao.findByName(name);
 		user.setUserProfile(new UserProfile(userProfile));
 		return user;
 	}
 	
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public List<UserDTO> getFollowers() {
-		return null;
+	public UserDTO findById(int id) {
+		return (UserDTO) DTOAssembler.assemble(userDao.findOne(id), new UserDTO());
+	}
+	
+	public UserDTO findByName(String name) {
+		UserDTO user = (UserDTO) DTOAssembler.assemble(userDao.findByName(name), new UserDTO());
+		return user;
 	}
 	
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public List<UserDTO> getFollowings() {
-		return null;
+	public List<UserDTO> findFollowersByName(String name) {
+		User user = userDao.findByName(name);
+		return DTOAssembler.assembleUserDTOs(user.getFollowers());
+	}
+	
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<UserDTO> findFollowingsByName(String name) {
+		User user = userDao.findByName(name);
+		return DTOAssembler.assembleUserDTOs(user.getFollowings());
 	}
 	
 }
