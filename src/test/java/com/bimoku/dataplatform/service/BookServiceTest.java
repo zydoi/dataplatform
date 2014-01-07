@@ -45,4 +45,10 @@ public class BookServiceTest {
 	    List<BookDTO> books = service.findAll(0, 5, "DESC", "PubPrice");
 		assertEquals(14, books.get(0).getPubPrice(), 0.01);
 	}
+	
+	@Test
+	public void shouldGetBooksViaUniversalSearch() {
+		assertEquals(2, service.universalSearch("Book", 0, 2).size());
+	}
+
 }

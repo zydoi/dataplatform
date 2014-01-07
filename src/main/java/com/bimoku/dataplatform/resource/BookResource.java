@@ -86,4 +86,12 @@ public class BookResource {
 		logger.info("Get Promotion Books start:" + start + " Size:" + size);
 		return bookService.findPromotionBooks(start, size, direction, orders.toArray(new String[orders.size()]));
 	}
+	
+	@Path(value = "/book/search/")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<BookDTO> universalSearch(@QueryParam("input")String input, @DefaultValue("0") @QueryParam("start")int start,  @DefaultValue("10") @QueryParam("size") int size) {
+		logger.info("Universal search, input: " + input);
+		return bookService.universalSearch(input, start, size);
+	}
 }

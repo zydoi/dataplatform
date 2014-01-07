@@ -41,6 +41,10 @@ public class BookDetailsDTO extends BookDTO {
 	
 	@XmlElement(name = "Tag")
 	private List<TagDTO> tags = new ArrayList<TagDTO>();
+
+	@XmlElement(name = "Recommendation")
+	private List<BookDTO> recommendations = new ArrayList<BookDTO>();
+	
 	
 	public List<AuthorDTO> getAuthors() {
 		return authors;
@@ -120,6 +124,14 @@ public class BookDetailsDTO extends BookDTO {
 
 	public void setMessages(List<MessageDTO> messages) {
 		this.messages = messages;
+	}
+
+	public List<BookDTO> getRecommendations() {
+		return recommendations;
+	}
+
+	public void setRecommendations(List<BookDTO> recommendations) {
+		this.recommendations = recommendations;
 	}
 
 }

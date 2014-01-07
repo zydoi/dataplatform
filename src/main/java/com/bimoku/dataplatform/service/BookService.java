@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -38,6 +42,9 @@ public class BookService {
 	
 	@Autowired
 	private PressDao pressDao;
+	
+	@PersistenceContext
+	private EntityManager entityManager;
 	
 	/**
 	 * Creates a Book.
@@ -132,16 +139,17 @@ public class BookService {
 		} 
 		List<MessageDTO> mDTOs = DTOAssembler.assembleMessageDTOs(messages);
 		dto.setMessages(mDTOs);
-
 		//get authors
 		dto.setAuthors(DTOAssembler.assembleAuthorDTOs(book.getAuthors()));
-		
 		//get translators
 		dto.setTranslators(DTOAssembler.assembleAuthorDTOs(book.getTranslators()));
-
 		//get tags
 		dto.setTags(DTOAssembler.assembleTagDTOs(book.getAssociatedTags()));
-		
+		//TODO get recommendations
+		if(dto.getTags().size() !=  0) {
+			List<BookDTO> recommendations = DTOAssembler.assembleBookDTOs(bookDao.findByAssociatedTagsTagName(dto.getTags().get(0).getName(), new PageRequest(0, 10)));
+			dto.setRecommendations(recommendations);
+		}
 		return dto;
 	}
 	
@@ -217,6 +225,22 @@ public class BookService {
 		return bookDao.findByAssociatedTagsTagName(tag, pageable);
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<BookDTO> universalSearch(String input, int start, int size) {
+		StringBuilder sb = new StringBuilder(256);
+		sb.append("select b from Book b left join fetch b.press p ")
+			.append("left join fetch b.authors a where b.name like '%")
+			.append(input).append("%' ")
+			.append("or a.name = :input or p.name = :input");
+		Query q = entityManager.createQuery(sb.toString());
+		q.setParameter("input", input);
+		q.setFirstResult(start * size);
+		q.setMaxResults(size);
+		
+		return convertToBookDTOs(q.getResultList());
+	}
+	
 	private List<BookDTO> convertToBookDTOs(Collection<Book> books) {
 		List<BookDTO> dtos = new ArrayList<BookDTO>();
 		for(Book book : books) {
@@ -236,6 +260,5 @@ public class BookService {
 		}
 		return dtos;
 	}
-	
 	
 }

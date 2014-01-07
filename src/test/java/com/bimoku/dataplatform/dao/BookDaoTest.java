@@ -102,4 +102,10 @@ public class BookDaoTest {
 		assertEquals(5, repository.findByIsSaleRankTrue(new PageRequest(0, 5)).size());
 	}
 	
+	@SuppressWarnings("deprecation")
+	@Test
+	public void shouldGetBooksViaUniversalSearch() {
+		assertEquals(5, repository.universalSearch("Book", "Book").size());
+		assertEquals(5, repository.universalSearch("", "Press").size());
+	}
 }

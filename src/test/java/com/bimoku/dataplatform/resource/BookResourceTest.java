@@ -41,7 +41,7 @@ public class BookResourceTest extends JerseyTest {
 	@Before
 	public void setup() {
 		dataGenerator.cleanUp();
-		dataGenerator.generateBooks(5);
+		dataGenerator.generateTestData(5);
 	}
 	
 	@Test
@@ -55,7 +55,7 @@ public class BookResourceTest extends JerseyTest {
 		GenericType<List<BookDTO>> listType = new GenericType<List<BookDTO>>() {};
 		List<BookDTO> books = (List<BookDTO>) target("book/page").queryParam("start", 0).queryParam("size", 2)
 				.queryParam("direction", "DESC").queryParam("orderBy", "PubPrice").request().get(listType);
-		assertEquals(14, books.get(0).getPubPrice(), 0);
+		assertEquals(15, books.get(0).getPubPrice(), 0);
 	}
 	
 	@Test
@@ -76,6 +76,15 @@ public class BookResourceTest extends JerseyTest {
 	public void shouldGetBooksByTag() {
 		GenericType<List<BookDTO>> listType = new GenericType<List<BookDTO>>() {};
 		List<BookDTO> books = (List<BookDTO>) target("book/tag").queryParam("tag", "Tag1").queryParam("start", 0).queryParam("size", 2).request().get(listType);
+		assertEquals(2, books.size());
+	}
+	
+	@Test
+	public void shouldGetBooksViaUniversalSearch() {
+		GenericType<List<BookDTO>> listType = new GenericType<List<BookDTO>>() {};
+		List<BookDTO> books = (List<BookDTO>) target("book/search").queryParam("input", "Press").queryParam("start", 0).queryParam("size", 2).request().get(listType);
+		assertEquals(2, books.size());
+		books = (List<BookDTO>) target("book/search").queryParam("input", "oo").queryParam("start", 0).queryParam("size", 2).request().get(listType);
 		assertEquals(2, books.size());
 	}
 	
