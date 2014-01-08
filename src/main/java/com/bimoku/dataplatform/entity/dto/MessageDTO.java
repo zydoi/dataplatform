@@ -13,19 +13,19 @@ import com.bimoku.dataplatform.entity.Message;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MessageDTO {
 
-	@XmlElement(name = "User")
+	@XmlElement(name = "user")
 	private UserDTO user;
 	
-	@XmlElement(name = "BookName")
+	@XmlElement(name = "bookName")
 	private String bookName;
 
-	@XmlElement(name = "Content")
+	@XmlElement(name = "content")
 	private String content;
 	
-	@XmlElement(name = "CreateAt")
+	@XmlElement(name = "createAt")
 	private Date createAt;
 	
-	@XmlElement(name = "Site")
+	@XmlElement(name = "site")
 	private String site;
 	
 	public MessageDTO() {

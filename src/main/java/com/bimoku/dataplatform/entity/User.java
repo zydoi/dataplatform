@@ -52,8 +52,6 @@ public class User {
 	@ManyToMany(mappedBy = "followers")
 	private Set<User> followings = new HashSet<User> ();
 	
-	//private Set<User> concerns = new HashSet<User>();
-	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "User_Like_Book",
 			joinColumns = @JoinColumn(name = "USER_ID"),

@@ -12,37 +12,37 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BookDetailsDTO extends BookDTO {
 
-	@XmlElement(name = "Author")
+	@XmlElement(name = "author")
 	private List<AuthorDTO> authors = new ArrayList<AuthorDTO>();
 	
-	@XmlElement(name = "Translator")
+	@XmlElement(name = "translator")
 	private List<AuthorDTO> translators  = new ArrayList<AuthorDTO>();
 	
-	@XmlElement(name = "Press")
+	@XmlElement(name = "press")
 	private String press;
 	
-	@XmlElement(name = "Version")
+	@XmlElement(name = "version")
 	private String versionNum;
 	
-	@XmlElement(name = "CoverPic")
+	@XmlElement(name = "coverPic")
 	private String coverPic;
 	
-	@XmlElement(name = "Outline")
+	@XmlElement(name = "outline")
 	private String outline;
 	
-	@XmlElement(name = "Directory")
+	@XmlElement(name = "directory")
 	private String directory;
 	
-	@XmlElement(name = "PubPrice")
+	@XmlElement(name = "pubPrice")
 	private double pubPrice;
 
-	@XmlElement(name = "Message")
+	@XmlElement(name = "message")
 	private List<MessageDTO> messages = new ArrayList<MessageDTO>();
 	
-	@XmlElement(name = "Tag")
+	@XmlElement(name = "tags")
 	private List<TagDTO> tags = new ArrayList<TagDTO>();
 
-	@XmlElement(name = "Recommendation")
+	@XmlElement(name = "recommendations")
 	private List<BookDTO> recommendations = new ArrayList<BookDTO>();
 	
 	

@@ -9,13 +9,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PressDTO {
 
-	@XmlElement(name = "Name")
+	@XmlElement(name = "name")
 	private String name;
 	
-	@XmlElement(name = "Address")
+	@XmlElement(name = "address")
 	private String address;
 	
-	@XmlElement(name = "Phone")
+	@XmlElement(name = "phone")
 	private String phone;
 
 	public String getName() {

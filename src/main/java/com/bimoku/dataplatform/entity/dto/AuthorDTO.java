@@ -10,13 +10,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Author")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AuthorDTO {
-	@XmlAttribute(name = "ID")
+	@XmlAttribute(name = "id")
 	private int id;
 	
-	@XmlElement(name = "Name")
+	@XmlElement(name = "name")
 	private String name;
 
-	@XmlElement(name = "Introduction")
+	@XmlElement(name = "introduction")
 	private String intro;
 
 	public int getId() {

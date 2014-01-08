@@ -6,13 +6,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "UserProfile")
 public class UserProfileDTO {
 	
-	@XmlElement(name = "Gender")
+	@XmlElement(name = "gender")
 	private boolean gender;
 	
-	@XmlElement(name = "UserImage")
+	@XmlElement(name = "userImage")
 	private String userImage;
 	
-	@XmlElement(name = "Email")
+	@XmlElement(name = "email")
 	private String email;
 
 	public String getEmail() {

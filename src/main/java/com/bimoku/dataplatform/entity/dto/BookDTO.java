@@ -12,28 +12,28 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BookDTO {
 
-	@XmlAttribute(name = "ID")
+	@XmlAttribute(name = "id")
 	private int id;
 
-	@XmlElement(name = "ISBN")
+	@XmlElement(name = "isbn")
 	private String isbn;
 
-	@XmlElement(name = "Name")
+	@XmlElement(name = "name")
 	private String name;
 
-	@XmlElement(name = "CoverPic")
+	@XmlElement(name = "coverPic")
 	private String coverPic;
 
-	@XmlElement(name = "PubPrice")
+	@XmlElement(name = "pubPrice")
 	private double pubPrice;
 
-	@XmlElement(name = "CommentCount")
+	@XmlElement(name = "commentCount")
 	private int commentCount;
 
-	@XmlElement(name = "LikeCount")
+	@XmlElement(name = "likeCount")
 	private int likeCount;
 
-	@XmlElement(name = "Messages")
+	@XmlElement(name = "messages")
 	private List<MessageDTO> messages;
 
 	public BookDTO() {
