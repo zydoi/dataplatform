@@ -3,11 +3,13 @@ package com.bimoku.dataplatform.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -52,19 +54,19 @@ public class User {
 	
 	//private Set<User> concerns = new HashSet<User>();
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "User_Like_Book",
 			joinColumns = @JoinColumn(name = "USER_ID"),
 			inverseJoinColumns = @JoinColumn(name = "BOOK_ID"))
 	private Set<Book> likeBooks = new HashSet<Book>();
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "User_Search_Book",
 		joinColumns = @JoinColumn(name = "USER_ID"),
 		inverseJoinColumns = @JoinColumn(name = "BOOK_ID"))
 	private Set<Book> searchBooks = new HashSet<Book>();
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<CollectedBook> collectedBooks = new HashSet<CollectedBook>();
 	
 	public User() {

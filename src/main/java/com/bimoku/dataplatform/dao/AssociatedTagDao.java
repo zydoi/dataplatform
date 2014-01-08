@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bimoku.dataplatform.entity.AssociatedTag;
 
-public interface AssociatedTagDao extends JpaRepository<AssociatedTag, Integer>{
+public interface AssociatedTagDao extends JpaRepository<AssociatedTag, Integer> {
 	
 	public AssociatedTag findByTagNameAndBookIsbn(String tagName, String isbn);
 	

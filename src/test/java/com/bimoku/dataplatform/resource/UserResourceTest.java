@@ -20,6 +20,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bimoku.dataplatform.entity.dto.BookDTO;
 import com.bimoku.dataplatform.entity.dto.UserDTO;
 import com.bimoku.dataplatform.util.DataGenerator;
 
@@ -68,6 +69,22 @@ public class UserResourceTest extends JerseyTest {
 		dto.setName("Test");
 		UserDTO u = target("user").request().post(Entity.entity(dto, MediaType.APPLICATION_JSON), UserDTO.class);
 		assertEquals(dto.getName(), u.getName());
+	}
+	
+	@Test
+	public void shouldCollectABook() {
+		target("user/User 2/collects").queryParam("status", "READ").request().put(Entity.entity("1", MediaType.TEXT_PLAIN));
+		GenericType<List<BookDTO>> listType = new GenericType<List<BookDTO>>() {};
+		List<BookDTO> books = (List<BookDTO>) target("book/collected").queryParam("user", "User 2").queryParam("start", 0).queryParam("size", 2).request().get(listType);
+		assertEquals(1, books.size());	
+	}
+	
+	@Test
+	public void shouldLikeABook() {
+		target("user/User 2/likes").request().put(Entity.entity("1", MediaType.TEXT_PLAIN));
+		GenericType<List<BookDTO>> listType = new GenericType<List<BookDTO>>() {};
+		List<BookDTO> books = (List<BookDTO>) target("book/liked").queryParam("user", "User 2").queryParam("start", 0).queryParam("size", 2).request().get(listType);
+		assertEquals(1, books.size());	
 	}
 	
 	@After

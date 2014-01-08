@@ -30,6 +30,15 @@ public class CollectedBook {
 	@Enumerated(EnumType.ORDINAL)
 	private CollectionStatus collectionStatus;
 	
+	public CollectedBook() {
+	}
+
+	public CollectedBook(User user, Book book, CollectionStatus status) {
+		this.user = user;
+		this.book = book;
+		this.collectionStatus = status;
+	}
+	
 	public Book getBook() {
 		return book;
 	}

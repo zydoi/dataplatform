@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bimoku.dataplatform.dao.AuthorDao;
 import com.bimoku.dataplatform.dao.BookDao;
 import com.bimoku.dataplatform.dao.PressDao;
+import com.bimoku.dataplatform.dao.UserDao;
 import com.bimoku.dataplatform.entity.Author;
 import com.bimoku.dataplatform.entity.Book;
 import com.bimoku.dataplatform.entity.Message;
@@ -42,6 +43,9 @@ public class BookService {
 	
 	@Autowired
 	private PressDao pressDao;
+	
+	@Autowired
+	private UserDao userDao;
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -203,6 +207,45 @@ public class BookService {
 		return convertToBookDTOs(books);		
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+	public List<BookDTO> findCollectedBooks(String userName, int start, int size) {
+		StringBuilder sb = new StringBuilder(256);
+		sb.append("select c.book from User u join u.collectedBooks c ")
+			.append("where u.name = :name");
+		Query q = entityManager.createQuery(sb.toString());
+		q.setParameter("name", userName);
+		q.setFirstResult(start * size);
+		q.setMaxResults(size);
+		return convertToBookDTOs(q.getResultList());
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+	public List<BookDTO> findLikedBooks(String userName, int start, int size) {
+		StringBuilder sb = new StringBuilder(256);
+		sb.append("select l from User u join u.likeBooks l ")
+			.append("where u.name = :name");
+		Query q = entityManager.createQuery(sb.toString());
+		q.setParameter("name", userName);
+		q.setFirstResult(start * size);
+		q.setMaxResults(size);
+		return convertToBookDTOs(q.getResultList());
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+	public List<BookDTO> findSearchedBooks(String userName, int start, int size) {
+		StringBuilder sb = new StringBuilder(256);
+		sb.append("select s from User u join u.searchBooks s ")
+			.append("where u.name = :name");
+		Query q = entityManager.createQuery(sb.toString());
+		q.setParameter("name", userName);
+		q.setFirstResult(start * size);
+		q.setMaxResults(size);
+		return convertToBookDTOs(q.getResultList());
+	}
+	
 	/**
 	 * Gets a page of books by the press name. 
 	 * @param press press name
@@ -224,6 +267,7 @@ public class BookService {
 	public List<Book> findByTagsName(String tag, Pageable pageable) {
 		return bookDao.findByAssociatedTagsTagName(tag, pageable);
 	}
+	
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)

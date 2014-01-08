@@ -66,6 +66,20 @@ public class BookResourceTest extends JerseyTest {
 	}
 	
 	@Test
+	public void shouldGetLikedBooks() {
+		GenericType<List<BookDTO>> listType = new GenericType<List<BookDTO>>() {};
+		List<BookDTO> books = (List<BookDTO>) target("book/liked").queryParam("user", "User 1").queryParam("start", 0).queryParam("size", 2).request().get(listType);
+		assertEquals(1, books.size());
+	}
+	
+	@Test
+	public void shouldGetCollectedBooks() {
+		GenericType<List<BookDTO>> listType = new GenericType<List<BookDTO>>() {};
+		List<BookDTO> books = (List<BookDTO>) target("book/collected").queryParam("user", "User 1").queryParam("start", 0).queryParam("size", 2).request().get(listType);
+		assertEquals(1, books.size());
+	}
+	
+	@Test
 	public void shouldGetBooksByName() {
 		GenericType<List<BookDTO>> listType = new GenericType<List<BookDTO>>() {};
 		List<BookDTO> books = (List<BookDTO>) target("book").queryParam("name", "Book 1").queryParam("start", 0).queryParam("size", 2).request().get(listType);

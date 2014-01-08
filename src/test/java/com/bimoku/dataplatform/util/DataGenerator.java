@@ -9,15 +9,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bimoku.dataplatform.dao.AssociatedTagDao;
 import com.bimoku.dataplatform.dao.BookDao;
+import com.bimoku.dataplatform.dao.CollectedBookDao;
 import com.bimoku.dataplatform.dao.MessageDao;
 import com.bimoku.dataplatform.dao.PressDao;
 import com.bimoku.dataplatform.dao.TagDao;
 import com.bimoku.dataplatform.dao.UserDao;
 import com.bimoku.dataplatform.entity.Book;
+import com.bimoku.dataplatform.entity.CollectedBook;
 import com.bimoku.dataplatform.entity.Message;
 import com.bimoku.dataplatform.entity.Press;
 import com.bimoku.dataplatform.entity.Tag;
 import com.bimoku.dataplatform.entity.User;
+import com.bimoku.dataplatform.entity.type.CollectionStatus;
 
 @Service
 public class DataGenerator {
@@ -38,14 +41,18 @@ public class DataGenerator {
 	private TagDao tagDao;
 	
 	@Autowired
-	private AssociatedTagDao associatedTagDao;
+	private AssociatedTagDao aTagDao;
+	
+	@Autowired
+	private CollectedBookDao cBookDao;
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void cleanUp() {
+		aTagDao.deleteAll();
+		cBookDao.deleteAll();
 		messageDao.deleteAll();
 		bookDao.deleteAll();
 		userDao.deleteAll();
-		associatedTagDao.deleteAll();
 		tagDao.deleteAll();
 		pressDao.deleteAll();
 	}
@@ -66,6 +73,12 @@ public class DataGenerator {
 		book2.setPress(press);
 		bookDao.save(book1);
 		bookDao.save(book2);
+		
+		user.getLikeBooks().add(book1);
+		user.getSearchBooks().add(book1);
+		CollectedBook cBook = new CollectedBook(user, book1, CollectionStatus.READ);
+		user.getCollectedBooks().add(cBook);
+		
 		List<Message> messages = EntityGenerator.generateMessages(n);
 		for (Message message : messages) {
 			message.setUser(user);
@@ -76,9 +89,9 @@ public class DataGenerator {
 		Tag tag2 = new Tag("Tag2");
 		tagDao.save(tag1);
 		tagDao.save(tag2);
-		associatedTagDao.save(EntityGenerator.generateAssociatedTag(book1, tag1));
-		associatedTagDao.save(EntityGenerator.generateAssociatedTag(book1, tag2));
-		associatedTagDao.save(EntityGenerator.generateAssociatedTag(book2, tag1));
+		aTagDao.save(EntityGenerator.generateAssociatedTag(book1, tag1));
+		aTagDao.save(EntityGenerator.generateAssociatedTag(book1, tag2));
+		aTagDao.save(EntityGenerator.generateAssociatedTag(book2, tag1));
 	}
 	
 }

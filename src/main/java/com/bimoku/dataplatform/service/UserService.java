@@ -7,11 +7,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bimoku.dataplatform.dao.BookDao;
+import com.bimoku.dataplatform.dao.CollectedBookDao;
 import com.bimoku.dataplatform.dao.UserDao;
+import com.bimoku.dataplatform.entity.Book;
+import com.bimoku.dataplatform.entity.CollectedBook;
 import com.bimoku.dataplatform.entity.User;
 import com.bimoku.dataplatform.entity.UserProfile;
 import com.bimoku.dataplatform.entity.dto.UserDTO;
 import com.bimoku.dataplatform.entity.dto.UserProfileDTO;
+import com.bimoku.dataplatform.entity.type.CollectionStatus;
 import com.bimoku.dataplatform.util.DTOAssembler;
 
 @Transactional
@@ -20,6 +25,12 @@ public class UserService {
 	
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private BookDao bookDao;
+	
+	@Autowired
+	private CollectedBookDao cBookDao;
 	
 	public UserDTO create(UserDTO dto) {
 		User user = new User(dto);
@@ -83,4 +94,31 @@ public class UserService {
 		return DTOAssembler.assembleUserDTOs(user.getFollowings());
 	}
 	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void collectBook(String name, String isbn, CollectionStatus status) {
+		User user = userDao.findByName(name);
+		if(user == null) {
+			return;
+		}
+		Book book = bookDao.findByIsbn(isbn);
+		user.getCollectedBooks().add(new CollectedBook(user, book, status));
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void likeBook(String name, String isbn) {
+		User user = userDao.findByName(name);
+		if(user == null) {
+			return;
+		}
+		user.getLikeBooks().add(bookDao.findByIsbn(isbn));		
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void searchedBook(String name, String isbn) {
+		User user = userDao.findByName(name);
+		if(user == null) {
+			return;
+		}
+		user.getLikeBooks().add(bookDao.findByIsbn(isbn));		
+	}
 }

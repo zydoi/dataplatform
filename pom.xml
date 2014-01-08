@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>bimoku</groupId>
+	<groupId>com.bimoku</groupId>
 	<artifactId>dataplatform</artifactId>
 	<version>1.0beta</version>
 	<packaging>war</packaging>
@@ -16,7 +16,7 @@
 		<!-- Dependency version -->
 		<spring.version>3.2.5.RELEASE</spring.version>
 		<jersey.version>2.5</jersey.version>
-
+		<hibernate.version>4.2.8.Final</hibernate.version>
 	</properties>
 
 	<dependencies>
@@ -45,12 +45,12 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>4.2.8.Final</version>
+			<version>${hibernate.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.2.8.Final</version>
+			<version>${hibernate.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>

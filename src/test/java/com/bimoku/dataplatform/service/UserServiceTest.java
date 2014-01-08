@@ -10,9 +10,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bimoku.dataplatform.dao.BookDao;
+import com.bimoku.dataplatform.dao.CollectedBookDao;
 import com.bimoku.dataplatform.dao.UserDao;
+import com.bimoku.dataplatform.entity.Book;
 import com.bimoku.dataplatform.entity.User;
 import com.bimoku.dataplatform.entity.dto.UserDTO;
+import com.bimoku.dataplatform.entity.type.CollectionStatus;
 import com.bimoku.dataplatform.util.EntityGenerator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -25,6 +29,12 @@ public class UserServiceTest {
 	
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private BookDao bookDao;
+	
+	@Autowired
+	private CollectedBookDao cBookDao;
 	
 	@Before
 	public void setup() {
@@ -57,5 +67,13 @@ public class UserServiceTest {
 		
 		userService.unfollow("User 2", "User 1");
 		assertEquals(0, userService.findFollowersByName("User 1").size());
+	}
+	
+	@Test
+	public void shouldCollectBook() {
+		Book book = bookDao.save(EntityGenerator.generateBook("1"));
+		userService.collectBook("User 1", book.getIsbn(), CollectionStatus.READ);
+		assertEquals(1, userDao.findByName("User 1").getCollectedBooks().size());
+		assertEquals(1, cBookDao.findAll().size());
 	}
 }

@@ -82,12 +82,37 @@ public class BookResource {
 	@Path(value = "/book/promotion")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<BookDTO> getPromotionBooks(@DefaultValue("0") @QueryParam("start")int start,  @DefaultValue("10") @QueryParam("size") int size, @DefaultValue("ASC") @QueryParam("direction") String direction,  @QueryParam("orderBy") List<String> orders){
+	public List<BookDTO> getPromotionBooks(@DefaultValue("0") @QueryParam("start")int start,  @DefaultValue("10") @QueryParam("size") int size, 
+			@DefaultValue("ASC") @QueryParam("direction") String direction,  @QueryParam("orderBy") List<String> orders){
 		logger.info("Get Promotion Books start:" + start + " Size:" + size);
 		return bookService.findPromotionBooks(start, size, direction, orders.toArray(new String[orders.size()]));
 	}
 	
-	@Path(value = "/book/search/")
+	@Path(value = "/book/searched")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<BookDTO> getSearchedBooks(@QueryParam("user") String user, @DefaultValue("0") @QueryParam("start")int start,  @DefaultValue("10") @QueryParam("size") int size) {
+		logger.info("Get User: " + user + " searched Books start:" + start + " Size:" + size);
+		return bookService.findSearchedBooks(user, start, size);
+	}	
+	
+	@Path(value = "/book/liked")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<BookDTO> getlikedBooks(@QueryParam("user") String user, @DefaultValue("0") @QueryParam("start")int start,  @DefaultValue("10") @QueryParam("size") int size) {
+		logger.info("Get User: " + user + " liked Books start:" + start + " Size:" + size);
+		return bookService.findLikedBooks(user, start, size);
+	}	
+	
+	@Path(value = "/book/collected")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<BookDTO> getCollectedBooks(@QueryParam("user") String user, @DefaultValue("0") @QueryParam("start")int start,  @DefaultValue("10") @QueryParam("size") int size) {
+		logger.info("Get User: " + user + " collected Books start:" + start + " Size:" + size);
+		return bookService.findCollectedBooks(user, start, size);
+	}	
+	
+	@Path(value = "/book/search")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<BookDTO> universalSearch(@QueryParam("input")String input, @DefaultValue("0") @QueryParam("start")int start,  @DefaultValue("10") @QueryParam("size") int size) {
