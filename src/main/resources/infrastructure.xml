@@ -15,6 +15,7 @@
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 			</bean>
 		</property>
+		
 		<property name="persistenceUnitName" value="DataPlatform" />
 	</bean>
 

@@ -64,9 +64,9 @@ public class UserResourceTest extends JerseyTest {
 	@Test
 	public void shouldCreateAUser() {
 		UserDTO dto = new UserDTO();
-		dto.setName("Test");
+		dto.setName("中文");
 		UserDTO u = target("user").request().post(Entity.entity(dto, MediaType.APPLICATION_JSON), UserDTO.class);
-		assertEquals(dto.getName(), u.getName());
+		assertEquals("中文", u.getName());
 	}
 	
 	public void shouldCollectABook() {

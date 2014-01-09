@@ -110,7 +110,9 @@ public class UserService {
 		if(user == null) {
 			return;
 		}
-		user.getLikeBooks().add(bookDao.findByIsbn(isbn));		
+		Book book = bookDao.findByIsbn(isbn);
+		book.setLikeCount(book.getLikeCount() + 1);
+		user.getLikeBooks().add(book);		
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -119,6 +121,8 @@ public class UserService {
 		if(user == null) {
 			return;
 		}
-		user.getLikeBooks().add(bookDao.findByIsbn(isbn));		
+		Book book = bookDao.findByIsbn(isbn);
+		book.setCollectCount(book.getCollectCount() + 1);
+		user.getLikeBooks().add(book);		
 	}
 }

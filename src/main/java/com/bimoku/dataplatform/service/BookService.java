@@ -143,6 +143,7 @@ public class BookService {
 		} 
 		List<MessageDTO> mDTOs = DTOAssembler.assembleMessageDTOs(messages);
 		dto.setMessages(mDTOs);
+		
 		//get authors
 		dto.setAuthors(DTOAssembler.assembleAuthorDTOs(book.getAuthors()));
 		//get translators

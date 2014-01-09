@@ -101,6 +101,12 @@ public class Book {
 
 	@Column(name = "IS_NEW_RANK", columnDefinition = "BIT", length = 1)
 	private boolean isNewRank;
+	
+	@Column(name = "LIKE_COUNT")
+	private int likeCount;
+	
+	@Column(name = "COLLECT_COUNT")
+	private int collectCount;
 
 	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
 	private Set<BookRaw> bookRaws = new HashSet<BookRaw>();
@@ -113,6 +119,7 @@ public class Book {
 		this.setIsbn(dto.getIsbn());
 		this.setCoverPic(dto.getCoverPic());
 		this.setPubPrice(dto.getPubPrice());
+		this.setLikeCount(dto.getLikeCount());
 	}
 	
 	public Book(BookDetailsDTO dto) {
@@ -123,6 +130,7 @@ public class Book {
 		this.setDirectory(dto.getDirectory());
 		this.setOutline(dto.getOutline());
 		this.setVersionNum(dto.getVersionNum());
+		this.setLikeCount(dto.getLikeCount());
 	}
 
 	public int getId() {
@@ -275,6 +283,22 @@ public class Book {
 
 	public void setSaleRank(boolean isSaleRank) {
 		this.isSaleRank = isSaleRank;
+	}
+
+	public int getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+
+	public int getCollectCount() {
+		return collectCount;
+	}
+
+	public void setCollectCount(int collectCount) {
+		this.collectCount = collectCount;
 	}
 
 	public String getDirectory() {
