@@ -46,11 +46,13 @@ public class UserResourceTest extends JerseyTest {
 		dataGenerator.generateTestData(1);
 	}
 	
+	@Test
 	public void shouldGetUserByName() {
 		UserDTO user = target("user/User 1").request().get(UserDTO.class);
 		assertEquals("User 1", user.getName());
 	}
 	
+	@Test
 	public void shouldGetFollowersByName() {
 		GenericType<List<UserDTO>> listType = new GenericType<List<UserDTO>>() {};
 		assertEquals(0, target("user/User 1/followers").request().get(listType).size());
@@ -69,6 +71,7 @@ public class UserResourceTest extends JerseyTest {
 		assertEquals("中文", u.getName());
 	}
 	
+	@Test
 	public void shouldCollectABook() {
 		target("user/User 2/collects").queryParam("status", "READ").request().put(Entity.entity("1", MediaType.TEXT_PLAIN));
 		GenericType<List<BookDTO>> listType = new GenericType<List<BookDTO>>() {};
@@ -76,6 +79,7 @@ public class UserResourceTest extends JerseyTest {
 		assertEquals(1, books.size());	
 	}
 	
+	@Test
 	public void shouldLikeABook() {
 		target("user/User 2/likes").request().put(Entity.entity("1", MediaType.TEXT_PLAIN));
 		GenericType<List<BookDTO>> listType = new GenericType<List<BookDTO>>() {};
