@@ -102,6 +102,8 @@ public class Book {
 	@Column(name = "IS_NEW_RANK", columnDefinition = "BIT", length = 1)
 	private boolean isNewRank;
 
+	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+	private Set<BookRaw> bookRaws = new HashSet<BookRaw>();
 	
 	public Book() {
 	}
@@ -297,6 +299,14 @@ public class Book {
 
 	public void setMessages(Set<Message> messages) {
 		this.messages = messages;
+	}
+
+	public Set<BookRaw> getBookRaws() {
+		return bookRaws;
+	}
+
+	public void setBookRaws(Set<BookRaw> bookRaws) {
+		this.bookRaws = bookRaws;
 	}
 
 }

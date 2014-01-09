@@ -149,15 +149,17 @@ public class BookService {
 		dto.setTranslators(DTOAssembler.assembleAuthorDTOs(book.getTranslators()));
 		//get tags
 		dto.setTags(DTOAssembler.assembleTagDTOs(book.getAssociatedTags()));
-		//TODO get recommendations
+		//get recommendations
 		if(dto.getTags().size() !=  0) {
 			List<BookDTO> recommendations = DTOAssembler.assembleBookDTOs(bookDao.findByAssociatedTagsTagName(dto.getTags().get(0).getName(), new PageRequest(0, 10)));
 			dto.setRecommendations(recommendations);
 		}
+		//get raw book information
+		if(book.getBookRaws().size() != 0) {
+			dto.setBookRaws(DTOAssembler.assembleBookRawDTOs(book.getBookRaws()));
+		}
 		return dto;
 	}
-	
-	
 	
 	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 	public List<BookDTO> findByTagName(String tag, int start, int size, String direction, String... orders) {

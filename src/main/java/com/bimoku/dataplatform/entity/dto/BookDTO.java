@@ -27,6 +27,9 @@ public class BookDTO {
 	@XmlElement(name = "pubPrice")
 	private double pubPrice;
 
+	@XmlElement(name = "outline")
+	private String outline;
+	
 	@XmlElement(name = "commentCount")
 	private int commentCount;
 
@@ -101,6 +104,14 @@ public class BookDTO {
 
 	public void setMessages(List<MessageDTO> messages) {
 		this.messages = messages;
+	}
+
+	public String getOutline() {
+		return outline;
+	}
+
+	public void setOutline(String outline) {
+		this.outline = outline;
 	}
 
 }

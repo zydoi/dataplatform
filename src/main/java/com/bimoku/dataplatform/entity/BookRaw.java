@@ -1,5 +1,6 @@
 package com.bimoku.dataplatform.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -16,11 +17,20 @@ public class BookRaw {
 	@ManyToOne
 	@JoinColumn(name = "ID", referencedColumnName = "ID")
 	private Book book;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "WEBSITE_ID")
 	private Website website;
 
+	@Column(name = "URL")
+	private String url;
+	
+	@Column(name = "PRICE")
+	private double price;
+	
+	public BookRaw() {
+	}
+	
 	public int getId() {
 		return id;
 	}

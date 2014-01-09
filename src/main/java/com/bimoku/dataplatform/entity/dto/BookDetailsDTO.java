@@ -45,6 +45,8 @@ public class BookDetailsDTO extends BookDTO {
 	@XmlElement(name = "recommendations")
 	private List<BookDTO> recommendations = new ArrayList<BookDTO>();
 	
+	@XmlElement(name = "bookRaws")
+	private List<BookRawDTO> bookRaws = new ArrayList<BookRawDTO>();
 	
 	public List<AuthorDTO> getAuthors() {
 		return authors;
@@ -132,6 +134,14 @@ public class BookDetailsDTO extends BookDTO {
 
 	public void setRecommendations(List<BookDTO> recommendations) {
 		this.recommendations = recommendations;
+	}
+
+	public List<BookRawDTO> getBookRaws() {
+		return bookRaws;
+	}
+
+	public void setBookRaws(List<BookRawDTO> bookRaws) {
+		this.bookRaws = bookRaws;
 	}
 
 }

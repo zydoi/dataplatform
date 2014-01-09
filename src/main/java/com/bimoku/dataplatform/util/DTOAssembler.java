@@ -12,11 +12,13 @@ import org.apache.log4j.Logger;
 import com.bimoku.dataplatform.entity.AssociatedTag;
 import com.bimoku.dataplatform.entity.Author;
 import com.bimoku.dataplatform.entity.Book;
+import com.bimoku.dataplatform.entity.BookRaw;
 import com.bimoku.dataplatform.entity.Message;
 import com.bimoku.dataplatform.entity.User;
 import com.bimoku.dataplatform.entity.dto.AuthorDTO;
 import com.bimoku.dataplatform.entity.dto.BookDTO;
 import com.bimoku.dataplatform.entity.dto.BookDetailsDTO;
+import com.bimoku.dataplatform.entity.dto.BookRawDTO;
 import com.bimoku.dataplatform.entity.dto.MessageDTO;
 import com.bimoku.dataplatform.entity.dto.TagDTO;
 import com.bimoku.dataplatform.entity.dto.UserDTO;
@@ -103,6 +105,16 @@ public class DTOAssembler {
 			TagDTO dto = new TagDTO();
 			dto.setCount(atag.getCount());
 			dto.setName(atag.getTag().getName());
+			dtos.add(dto);
+		}
+		return dtos;
+	}
+	
+	public static List<BookRawDTO> assembleBookRawDTOs(Collection<BookRaw> rBooks) {
+		List<BookRawDTO> dtos = new ArrayList<BookRawDTO>();
+		for (BookRaw bookRaw : rBooks) {
+			BookRawDTO dto = (BookRawDTO) assemble(bookRaw, new BookRawDTO());
+			dto.setSite(bookRaw.getWebsite().getName());
 			dtos.add(dto);
 		}
 		return dtos;
