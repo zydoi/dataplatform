@@ -76,4 +76,11 @@ public class UserServiceTest {
 		assertEquals(1, userDao.findByName("User 1").getCollectedBooks().size());
 		assertEquals(1, cBookDao.findAll().size());
 	}
+	
+	@Test
+	public void shouldLikeABook() {
+		Book book = bookDao.save(EntityGenerator.generateBook("1"));
+		userService.likeBook("User 1", book.getIsbn());
+		assertEquals(1, book.getLikeCount());
+	}
 }

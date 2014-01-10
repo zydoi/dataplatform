@@ -94,34 +94,40 @@ public class UserService {
 		return DTOAssembler.assembleUserDTOs(user.getFollowings());
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRED)
 	public void collectBook(String name, String isbn, CollectionStatus status) {
 		User user = userDao.findByName(name);
 		if(user == null) {
 			return;
 		}
 		Book book = bookDao.findByIsbn(isbn);
+		if(book == null) {
+			return;
+		}
 		user.getCollectedBooks().add(new CollectedBook(user, book, status));
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRED)
 	public void likeBook(String name, String isbn) {
 		User user = userDao.findByName(name);
 		if(user == null) {
 			return;
 		}
 		Book book = bookDao.findByIsbn(isbn);
+		if(book == null) {
+			return;
+		}
 		book.setLikeCount(book.getLikeCount() + 1);
 		user.getLikeBooks().add(book);		
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRED)
 	public void searchedBook(String name, String isbn) {
 		User user = userDao.findByName(name);
 		if(user == null) {
 			return;
 		}
 		Book book = bookDao.findByIsbn(isbn);
+		if(book == null) {
+			return;
+		}
 		book.setCollectCount(book.getCollectCount() + 1);
 		user.getLikeBooks().add(book);		
 	}

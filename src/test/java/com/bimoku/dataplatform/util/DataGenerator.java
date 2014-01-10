@@ -59,7 +59,7 @@ public class DataGenerator {
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void generateTestData(int n) {
-		User user = EntityGenerator.generateUser("User 2");
+		User user = EntityGenerator.generateUser("用户2");
 		userDao.save(user);
 		user = EntityGenerator.generateUser("User 1");
 		userDao.save(user);

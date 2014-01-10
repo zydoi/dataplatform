@@ -57,9 +57,9 @@ public class UserResourceTest extends JerseyTest {
 		GenericType<List<UserDTO>> listType = new GenericType<List<UserDTO>>() {};
 		assertEquals(0, target("user/User 1/followers").request().get(listType).size());
 		
-		target("user/User 2/follows").request().put(Entity.entity("User 1", MediaType.TEXT_PLAIN));
+		target("user/用户2/follows").request().put(Entity.entity("User 1", MediaType.TEXT_PLAIN));
 		assertEquals(1, target("user/User 1/followers").request().get(listType).size());
-		target("user/User 2/unfollows").request().put(Entity.entity("User 1", MediaType.TEXT_PLAIN));
+		target("user/用户2/unfollows").request().put(Entity.entity("User 1", MediaType.TEXT_PLAIN));
 		assertEquals(0, target("user/User 1/followers").request().get(listType).size());
 	}
 	
@@ -73,17 +73,17 @@ public class UserResourceTest extends JerseyTest {
 	
 	@Test
 	public void shouldCollectABook() {
-		target("user/User 2/collects").queryParam("status", "READ").request().put(Entity.entity("1", MediaType.TEXT_PLAIN));
+		target("user/用户2/collects").queryParam("status", "READ").request().put(Entity.entity("1", MediaType.TEXT_PLAIN));
 		GenericType<List<BookDTO>> listType = new GenericType<List<BookDTO>>() {};
-		List<BookDTO> books = (List<BookDTO>) target("book/collected").queryParam("user", "User 2").queryParam("start", 0).queryParam("size", 2).request().get(listType);
+		List<BookDTO> books = (List<BookDTO>) target("book/collected").queryParam("user", "用户2").queryParam("start", 0).queryParam("size", 2).request().get(listType);
 		assertEquals(1, books.size());	
 	}
 	
 	@Test
 	public void shouldLikeABook() {
-		target("user/User 2/likes").request().put(Entity.entity("1", MediaType.TEXT_PLAIN));
+		target("user/用户2/likes").request().put(Entity.entity("1", MediaType.TEXT_PLAIN));
 		GenericType<List<BookDTO>> listType = new GenericType<List<BookDTO>>() {};
-		List<BookDTO> books = (List<BookDTO>) target("book/liked").queryParam("user", "User 2").queryParam("start", 0).queryParam("size", 2).request().get(listType);
+		List<BookDTO> books = (List<BookDTO>) target("book/liked").queryParam("user", "用户2").queryParam("start", 0).queryParam("size", 2).request().get(listType);
 		assertEquals(1, books.size());	
 	}
 	
