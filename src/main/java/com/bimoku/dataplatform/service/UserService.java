@@ -2,6 +2,10 @@ package com.bimoku.dataplatform.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -31,6 +35,9 @@ public class UserService {
 	
 	@Autowired
 	private CollectedBookDao cBookDao;
+	
+	@PersistenceContext
+	private EntityManager entityManager;
 	
 	public UserDTO create(UserDTO dto) {
 		User user = new User(dto);
@@ -103,7 +110,19 @@ public class UserService {
 		if(book == null) {
 			return;
 		}
-		user.getCollectedBooks().add(new CollectedBook(user, book, status));
+		
+		//Check whether this book has been collected by the user already.
+		StringBuilder sb = new StringBuilder(256);
+		sb.append("select c.book from User u join u.collectedBooks c ")
+			.append("where u.name = :userName and c.book.isbn = :isbn");
+		Query q = entityManager.createQuery(sb.toString());
+		q.setParameter("userName", name);
+		q.setParameter("isbn", isbn);
+		
+		if(q.getResultList().size() == 0) {
+			user.getCollectedBooks().add(new CollectedBook(user, book, status));
+			book.setCollectCount(book.getCollectCount() + 1);
+		}
 	}
 	
 	public void likeBook(String name, String isbn) {
@@ -115,8 +134,10 @@ public class UserService {
 		if(book == null) {
 			return;
 		}
-		book.setLikeCount(book.getLikeCount() + 1);
-		user.getLikeBooks().add(book);		
+		if(!user.getLikeBooks().contains(book)) {
+			book.setLikeCount(book.getLikeCount() + 1);
+			user.getLikeBooks().add(book);		
+		}
 	}
 	
 	public void searchedBook(String name, String isbn) {
@@ -128,7 +149,9 @@ public class UserService {
 		if(book == null) {
 			return;
 		}
-		book.setCollectCount(book.getCollectCount() + 1);
-		user.getLikeBooks().add(book);		
+		if(!user.getSearchBooks().contains(book)) {
+			book.setCollectCount(book.getCollectCount() + 1);
+			user.getSearchBooks().add(book);		
+		}
 	}
 }

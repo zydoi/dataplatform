@@ -74,12 +74,17 @@ public class UserServiceTest {
 		Book book = bookDao.save(EntityGenerator.generateBook("1"));
 		userService.collectBook("User 1", book.getIsbn(), CollectionStatus.READ);
 		assertEquals(1, userDao.findByName("User 1").getCollectedBooks().size());
-		assertEquals(1, cBookDao.findAll().size());
+		assertEquals(1, book.getCollectCount());
+		userService.collectBook("User 1", book.getIsbn(), CollectionStatus.READ);
+		assertEquals(1, userDao.findByName("User 1").getCollectedBooks().size());
+		assertEquals(1, book.getCollectCount());
 	}
 	
 	@Test
 	public void shouldLikeABook() {
 		Book book = bookDao.save(EntityGenerator.generateBook("1"));
+		userService.likeBook("User 1", book.getIsbn());
+		assertEquals(1, book.getLikeCount());
 		userService.likeBook("User 1", book.getIsbn());
 		assertEquals(1, book.getLikeCount());
 	}
