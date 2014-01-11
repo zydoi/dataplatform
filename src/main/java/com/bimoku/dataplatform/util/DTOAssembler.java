@@ -21,7 +21,9 @@ import com.bimoku.dataplatform.entity.dto.BookDetailsDTO;
 import com.bimoku.dataplatform.entity.dto.BookRawDTO;
 import com.bimoku.dataplatform.entity.dto.MessageDTO;
 import com.bimoku.dataplatform.entity.dto.TagDTO;
+import com.bimoku.dataplatform.entity.dto.UserActionDTO;
 import com.bimoku.dataplatform.entity.dto.UserDTO;
+import com.bimoku.dataplatform.entity.type.Action;
 
 public class DTOAssembler {
 	
@@ -118,6 +120,17 @@ public class DTOAssembler {
 			dtos.add(dto);
 		}
 		return dtos;
+	}
+	
+	public static UserActionDTO assembleUserActionDTOs(String user, Book book, Action action) {
+		UserActionDTO dto = new UserActionDTO();
+		dto.setAction(action);
+		dto.setBook(assembleBookDTO(book));
+		dto.setUserName(user);
+		if(book.getAuthors() != null && book.getAuthors().size() != 0) {
+			dto.setAuthorName(book.getAuthors().iterator().next().getName());
+		}
+		return dto;
 	}
 	
 	/**

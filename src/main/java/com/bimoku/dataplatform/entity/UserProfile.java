@@ -17,6 +17,12 @@ public class UserProfile {
 	@Column(name = "GENDER", columnDefinition = "TINYINT")
 	private boolean gender;
 	
+	@Column(name = "DESCRIPTION")
+	private String description;
+	
+	@Column(name = "DOMAIN")
+	private String domain;
+	
 	public UserProfile() {
 	}
 	
@@ -48,6 +54,22 @@ public class UserProfile {
 
 	public void setGender(boolean gender) {
 		this.gender = gender;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getDomain() {
+		return domain;
+	}
+
+	public void setDomain(String domain) {
+		this.domain = domain;
 	}
 
 }
