@@ -26,7 +26,10 @@ public class Website {
 	private boolean isBookStore;
 	
 	public Website() {
-		
+	}
+
+	public Website(String name) {
+		this.name = name;
 	}
 
 	public String getUuid() {

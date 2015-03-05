@@ -73,7 +73,9 @@ public class User {
 	
 	public User(UserDTO dto) {
 		this.name = dto.getName();
-		
+		this.getUserProfile().setDomain(dto.getDomain());
+		this.getUserProfile().setUserImage(dto.getUserImage());
+		this.getUserProfile().setDescription(dto.getDescription());
 	}
 
 	public int getId() {

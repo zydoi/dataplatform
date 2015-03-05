@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -26,7 +27,8 @@ public class Author {
 	@Column(name = "NAME")
 	private String name;
 	
-	@Column(name = "INTRO")
+	@Column(name = "INTRO", columnDefinition = "TEXT")
+	@Lob
 	private String intro;
 
 	@Column(name = "IS_TRANSLATOR", columnDefinition="BIT", length = 1)
